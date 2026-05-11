@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gels Énergétiques Maison</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EFE6;
+    --cream-dark: #E8DFD0;
+    --bark: #2C1F0E;
+    --bark-light: #4A3520;
+    --moss: #2D5016;
+    --moss-light: #4A7A25;
+    --moss-pale: #E8F0DC;
+    --amber: #C47A1E;
+    --amber-pale: #FDF2DC;
+    --slate: #1B3A5C;
+    --slate-pale: #E0EAF4;
+    --plum: #5C1B4A;
+    --plum-pale: #F4E0EF;
+    --rust: #9B3015;
+    --rust-pale: #FAEAE6;
+    --ink: #1A1209;
+    --muted: #6B5A44;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--bark);
+    color: var(--cream);
+    padding: 80px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(196,122,30,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 80%, rgba(45,80,22,0.3) 0%, transparent 50%);
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+  .hero h1 em { font-style: italic; color: var(--amber); }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(244,239,230,0.7);
+    max-width: 560px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .hero-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+  .pill {
+    background: rgba(244,239,230,0.1);
+    border: 1px solid rgba(244,239,230,0.2);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  /* ── NAV ── */
+  .nav-bar {
+    background: var(--bark-light);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(244,239,230,0.1);
+  }
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 16px;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-link {
+    color: rgba(244,239,230,0.6);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 16px 18px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-link:hover { color: var(--cream); border-bottom-color: var(--amber); }
+
+  /* ── LAYOUT ── */
+  .main { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SCIENCE SECTION ── */
+  .science {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .science-text {
+    font-size: 16px;
+    color: var(--bark-light);
+    max-width: 680px;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* Transporteur table */
+  .transport-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .transport-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border-left: 4px solid var(--moss);
+  }
+  .transport-card.t2 { border-left-color: var(--amber); }
+  .transport-card.t3 { border-left-color: var(--slate); grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+  .transport-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .transport-name { font-weight: 700; font-size: 18px; margin-bottom: 4px; }
+  .transport-desc { font-size: 14px; color: var(--muted); }
+  .transport-capacity {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--slate);
+    white-space: nowrap;
+  }
+  .transport-capacity span { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400; color: var(--muted); }
+
+  .insight-box {
+    background: var(--slate-pale);
+    border-left: 3px solid var(--slate);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--bark-light);
+    margin-bottom: 20px;
+  }
+  .insight-box strong { color: var(--slate); }
+
+  /* ── RECIPE CARDS ── */
+  .recipe-section {
+    padding: 48px 0 0;
+    scroll-margin-top: 56px;
+  }
+  .recipe-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .recipe-emoji {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+  .recipe-meta { flex: 1; }
+  .recipe-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.15;
+  }
+  .recipe-tagline { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+  .recipe-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .recipe-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+
+  .why-box {
+    grid-column: 1 / -1;
+    border-radius: 12px;
+    padding: 24px;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .why-box strong { font-weight: 600; }
+  .why-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  /* Ingredients table */
+  .ing-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ing-table thead tr { border-bottom: 2px solid currentColor; }
+  .ing-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .ing-table td { padding: 11px 12px; border-bottom: 1px solid var(--cream-dark); vertical-align: top; }
+  .ing-table tr:last-child td { border-bottom: none; }
+  .ing-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+  .ing-name { font-weight: 600; }
+  .ing-qty {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .ing-role { color: var(--muted); font-size: 13px; }
+
+  /* Steps */
+  .steps-list { list-style: none; counter-reset: steps; }
+  .steps-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    align-items: flex-start;
+  }
+  .steps-list li::before {
+    content: counter(steps);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tip-box {
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .card-box {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border-top: 3px solid;
+  }
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--cream-dark); font-size: 14px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--muted); }
+  .stat-val { font-weight: 600; font-family: 'DM Mono', monospace; font-size: 13px; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--cream-dark);
+    margin: 48px 0 0;
+  }
+
+  /* ── SUMMARY TABLE ── */
+  .summary { padding: 60px 0; scroll-margin-top: 56px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 24px; }
+  .compare-table th {
+    background: var(--bark);
+    color: var(--cream);
+    padding: 12px 14px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .compare-table td { padding: 13px 14px; border-bottom: 1px solid var(--cream-dark); font-size: 14px; }
+  .compare-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+  .compare-table tr:hover td { background: rgba(0,0,0,0.04); }
+  .stars { color: var(--amber); letter-spacing: -1px; }
+
+  /* ── GOLDEN RULES ── */
+  .rules { background: var(--bark); color: var(--cream); padding: 60px 0; margin-top: 0; }
+  .rules .main { }
+  .rules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-top: 32px; }
+  .rule-card {
+    background: rgba(244,239,230,0.06);
+    border: 1px solid rgba(244,239,230,0.12);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .rule-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .rule-text { font-size: 14px; color: rgba(244,239,230,0.75); font-weight: 300; line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bark-light);
+    color: rgba(244,239,230,0.4);
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+  }
+
+  /* Colors per recipe */
+  .r1 { --rc: var(--moss); --rcp: var(--moss-pale); --rclight: #c8dba8; }
+  .r2 { --rc: var(--amber); --rcp: var(--amber-pale); --rclight: #f5d898; }
+  .r3 { --rc: var(--slate); --rcp: var(--slate-pale); --rclight: #a8c4e0; }
+  .r4 { --rc: var(--plum); --rcp: var(--plum-pale); --rclight: #d8a8c8; }
+  .r5 { --rc: var(--rust); --rcp: var(--rust-pale); --rclight: #e0a898; }
+
+  .recipe-emoji-bg { background: var(--rcp); }
+  .card-box { border-color: var(--rc); }
+  .ing-table thead { color: var(--rc); }
+  .steps-list li::before { background: var(--rc); color: white; }
+  .tip-box { background: var(--rcp); }
+  .why-box { background: var(--rcp); }
+  .why-title { color: var(--rc); }
+
+  @media (max-width: 640px) {
+    .recipe-body { grid-template-columns: 1fr; }
+    .transport-grid { grid-template-columns: 1fr; }
+    .transport-card.t3 { grid-template-columns: 1fr; }
+    .hero { padding: 60px 24px 40px; }
+    .ing-role { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Guide pratique · Sport endurance</div>
+    <h1>Gels<br>Énergétiques<br><em>Maison</em></h1>
+    <p class="hero-sub">4 variantes complètes, des explications claires, et jusqu'à 90% d'économies par rapport aux gels du commerce.</p>
+    <div class="hero-pills">
+      <span class="pill">🍁 Sirop d'érable</span>
+      <span class="pill">🍯 Miel</span>
+      <span class="pill">🔬 Fructose pur</span>
+      <span class="pill">☕ Version caféine</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="#science" class="nav-link">🧬 Science</a>
+    <a href="#r1" class="nav-link">🍁 Sirop d'érable</a>
+    <a href="#r2" class="nav-link">🍯 Miel</a>
+    <a href="#r3" class="nav-link">🔬 Fructose pur</a>
+    <a href="#r4" class="nav-link">☕ Caféine</a>
+    <a href="#r5" class="nav-link">🏃 Sans malto</a>
+    <a href="#summary" class="nav-link">📊 Comparatif</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- SCIENCE -->
+  <section class="science" id="science">
+    <div class="section-label">La science</div>
+    <h2 class="section-title">Pourquoi ça marche</h2>
+    <p class="science-text">Les gels du commerce sont conçus autour d'un principe clé : utiliser deux transporteurs intestinaux <em>différents</em> pour absorber plus de glucides sans inconfort digestif.</p>
+
+    <div class="transport-grid">
+      <div class="transport-card">
+        <div class="transport-label">Transporteur</div>
+        <div class="transport-name">SGLT1</div>
+        <div class="transport-desc">Absorbe le <strong>glucose</strong> et la <strong>maltodextrine</strong>. Sature à 60 g/heure — au-delà, les sucres fermentent dans l'intestin.</div>
+      </div>
+      <div class="transport-card t2">
+        <div class="transport-label">Transporteur</div>
+        <div class="transport-name">GLUT5</div>
+        <div class="transport-desc">Absorbe uniquement le <strong>fructose</strong>. Voie indépendante de SGLT1. Ajoute jusqu'à 30 g/heure supplémentaires.</div>
+      </div>
+      <div class="transport-card t3">
+        <div class="transport-capacity">90 g<span>/heure</span></div>
+        <div>
+          <div class="transport-label">Combinaison optimale · Ratio 2:1</div>
+          <div class="transport-name">Maltodextrine + Fructose</div>
+          <div class="transport-desc">Les deux transporteurs travaillent en parallèle. C'est exactement la formule utilisée par Maurten, SiS Beta Fuel et tous les gels pro haut de gamme.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <strong>Attention au contresens :</strong> La maltodextrine est <em>rapide</em> (IG ~95) malgré ses longues chaînes — elle est pré-digérée industriellement. Le fructose est <em>lent</em> car il doit passer par le foie avant d'être utilisé par les muscles. Le combo n'est pas « lent + rapide » mais « deux portes d'absorption différentes ».
+    </div>
+  </section>
+
+  <!-- RECIPE 1 — SIROP D'ÉRABLE -->
+  <section class="recipe-section r1" id="r1">
+    <div class="recipe-header">
+      <div class="recipe-emoji recipe-emoji-bg">🍁</div>
+      <div class="recipe-meta">
+        <div class="recipe-name">Maltodextrine + Sirop d'érable</div>
+        <div class="recipe-tagline">La meilleure option au Québec — texture fluide, électrolytes naturels, goût agréable.</div>
+        <div class="recipe-badges">
+          <span class="badge" style="background:var(--moss-pale);color:var(--moss)">1h30 → 5h+</span>
+          <span class="badge" style="background:var(--moss-pale);color:var(--moss)">~28–30 g glucides/gel</span>
+          <span class="badge" style="background:var(--moss-pale);color:var(--moss)">Très facile</span>
+          <span class="badge" style="background:var(--moss-pale);color:var(--moss)">Local</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-title">Pourquoi ce combo</div>
+      Le sirop d'érable est composé à ~90% de <strong>saccharose</strong>, qui se divise naturellement en glucose + fructose lors de la digestion. Il active donc les deux transporteurs (SGLT1 et GLUT5), permettant jusqu'à 75–80 g de glucides/heure. En prime, il est naturellement riche en <strong>potassium, calcium et magnésium</strong> — des électrolytes que les gels du commerce rajoutent artificiellement. Choisissez le sirop <strong>ambré ou foncé</strong> (Grade A ambré) : plus riche en minéraux, et moins cher que le doré.
+    </div>
+
+    <div class="recipe-body">
+      <div class="card-box">
+        <div class="card-title">Ingrédients · 6–8 gels de 40 ml</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Maltodextrine</td><td class="ing-qty">80 g</td><td class="ing-role">Énergie principale · SGLT1</td></tr>
+            <tr><td class="ing-name">Sirop d'érable ambré</td><td class="ing-qty">60 ml</td><td class="ing-role">Glucides + électrolytes · GLUT5</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">80 ml</td><td class="ing-role">Fluidité</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td><td class="ing-role">Sodium · crampes</td></tr>
+            <tr><td class="ing-name">Jus de citron <em style="color:var(--muted);font-size:12px">optionnel</em></td><td class="ing-qty">1 càs</td><td class="ing-role">Goût + antioxydants</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">Préparation</div>
+        <ol class="steps-list">
+          <li>Verser la maltodextrine dans un bol ou pichet.</li>
+          <li>Ajouter le sirop d'érable et l'eau tiède (pas chaude).</li>
+          <li>Mélanger jusqu'à dissolution complète (~2 min).</li>
+          <li>Ajouter le sel et le citron, mélanger 30 sec.</li>
+          <li>Remplir les tubes à l'aide d'une seringue ou d'un entonnoir.</li>
+          <li>Conserver au frigo. Durée : <strong>4–5 jours</strong>.</li>
+        </ol>
+        <div class="tip-box" style="margin-top:16px">
+          <span class="tip-icon">💡</span>
+          <span>Version ultra-simple sans malto : 100 ml sirop d'érable + 20 ml eau + ½ càc sel. Idéal pour les sorties de moins de 2h.</span>
+        </div>
+      </div>
+
+      <div class="card-box" style="grid-column:1/-1">
+        <div class="card-title">Profil nutritionnel · par gel (40 ml)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center">
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--moss)">~29g</div><div style="font-size:12px;color:var(--muted)">Glucides</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--moss)">~110</div><div style="font-size:12px;color:var(--muted)">Calories</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--moss)">~200mg</div><div style="font-size:12px;color:var(--muted)">Sodium</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--moss)">~0,35$</div><div style="font-size:12px;color:var(--muted)">Coût/gel</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- RECIPE 2 — MIEL -->
+  <section class="recipe-section r2" id="r2">
+    <div class="recipe-header">
+      <div class="recipe-emoji recipe-emoji-bg">🍯</div>
+      <div class="recipe-meta">
+        <div class="recipe-name">Maltodextrine + Miel</div>
+        <div class="recipe-tagline">Plus dense en calories, texture plus épaisse. Idéal pour les sports de montagne.</div>
+        <div class="recipe-badges">
+          <span class="badge" style="background:var(--amber-pale);color:var(--amber)">1h → 4h</span>
+          <span class="badge" style="background:var(--amber-pale);color:var(--amber)">~31–33 g glucides/gel</span>
+          <span class="badge" style="background:var(--amber-pale);color:var(--amber)">Facile</span>
+          <span class="badge" style="background:var(--amber-pale);color:var(--amber)">Dense en énergie</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-title">Pourquoi ce combo</div>
+      Le miel contient ~38% de fructose et ~31% de glucose en proportion naturelle (ratio ~1:1), activant les deux transporteurs intestinaux. Il est <strong>plus dense en calories</strong> que le sirop d'érable (304 kcal vs 260 pour 100g), ce qui en fait un choix intéressant quand le poids ou le volume importent. Son index glycémique légèrement plus bas (55–60) donne une énergie un peu plus stable. Point négatif : <strong>sa texture épaisse</strong> peut être difficile à avaler lors d'efforts intenses — ajoutez un peu plus d'eau si besoin.
+    </div>
+
+    <div class="recipe-body">
+      <div class="card-box">
+        <div class="card-title">Ingrédients · 6–8 gels de 40 ml</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Maltodextrine</td><td class="ing-qty">80 g</td><td class="ing-role">Énergie principale · SGLT1</td></tr>
+            <tr><td class="ing-name">Miel liquide</td><td class="ing-qty">50 g</td><td class="ing-role">Glucose + fructose · GLUT5</td></tr>
+            <tr><td class="ing-name">Eau tiède (40°C max)</td><td class="ing-qty">90 ml</td><td class="ing-role">Dissout le miel</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td><td class="ing-role">Sodium</td></tr>
+            <tr><td class="ing-name">Gingembre en poudre <em style="color:var(--muted);font-size:12px">opt.</em></td><td class="ing-qty">¼ càc</td><td class="ing-role">Confort digestif</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">Préparation</div>
+        <ol class="steps-list">
+          <li>Diluer d'abord le miel dans l'eau tiède — le miel ne se mélange pas à froid.</li>
+          <li>Ajouter la maltodextrine progressivement en fouettant.</li>
+          <li>Ajouter le sel (et le gingembre si utilisé).</li>
+          <li>Laisser refroidir avant de remplir les tubes.</li>
+          <li>Conserver au frigo. Durée : <strong>5–7 jours</strong> (le miel est conservateur naturel).</li>
+        </ol>
+        <div class="tip-box">
+          <span class="tip-icon">💡</span>
+          <span>Préférez un miel d'acacia — il reste liquide plus longtemps et se mélange plus facilement. Par temps froid, augmentez l'eau jusqu'à 110 ml.</span>
+        </div>
+      </div>
+
+      <div class="card-box" style="grid-column:1/-1">
+        <div class="card-title">Profil nutritionnel · par gel (40 ml)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center">
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--amber)">~32g</div><div style="font-size:12px;color:var(--muted)">Glucides</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--amber)">~120</div><div style="font-size:12px;color:var(--muted)">Calories</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--amber)">~190mg</div><div style="font-size:12px;color:var(--muted)">Sodium</div></div>
+          <div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--amber)">~0,30$</div><div style="font-size:12px;color:var(--muted)">Coût/gel</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- RECIPE 3 — FRUCTOSE PUR -->
+  <section class="recipe-section r3" id="r3">
+    <div class="recipe-header">
+      <div class="recipe-emoji recipe-emoji-bg">🔬</div>
+      <div class="recipe-meta">
+        <div class="recipe-name">Maltodextrine + Fructose pur (2:1)</div>
+        <div class="recipe-tagline">La formule de référence des gels pro. Absorption maximale. Pour les très longues distances.</div>
+        <div class="recipe-badges">
+          <span class="badge" style="background:var(--slate-pale);color:var(--slate)">2h → 10h+</span>
+          <span class="badge" style="background:var(--slate-pale);color:var(--slate)">~32–35 g glucides/gel</span>
+          <span class="badge" style="background:var(--slate-pale);color:var(--slate)">Intermédiaire</span>
+          <span class="badge" style="background:var(--slate-pale);color:var(--slate)">Formule pro</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-title">Pourquoi cette formule est la référence</div>
+      C'est <strong>exactement</strong> la formule Maurten, SiS Beta Fuel et GU Roctane. Le ratio <strong>2:1 maltodextrine/fructose</strong> est optimal car : la malto sature SGLT1 à 60 g/h, le fructose pur sature GLUT5 à 30 g/h. Résultat : <strong>90 g de glucides absorbés/heure</strong>, sans concurrence entre les deux. C'est impossible avec le miel ou le sirop d'érable car leur ratio glucose/fructose n'est pas parfaitement 2:1. La différence se ressent surtout au-delà de 3h d'effort à haute intensité.
+    </div>
+
+    <div class="recipe-body">
+      <div class="card-box">
+        <div class="card-title">Version optimale · Fructose pur</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Maltodextrine</td><td class="ing-qty">80 g</td><td class="ing-role">SGLT1 · 60 g/h</td></tr>
+            <tr><td class="ing-name">Fructose en poudre</td><td class="ing-qty">40 g</td><td class="ing-role">GLUT5 · 30 g/h</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">85 ml</td><td class="ing-role">Fluidité</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td><td class="ing-role">Sodium</td></tr>
+            <tr><td class="ing-name">Arôme alimentaire <em style="color:var(--muted);font-size:12px">opt.</em></td><td class="ing-qty">quelques gouttes</td><td class="ing-role">Goût (citron, fruits)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">Version accessible · Sucre blanc</div>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:14px">Si vous ne trouvez pas de fructose pur. Le saccharose se divise 50/50 en glucose + fructose. Moins optimal mais très efficace.</p>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Maltodextrine</td><td class="ing-qty">80 g</td></tr>
+            <tr><td class="ing-name">Sucre blanc</td><td class="ing-qty">40 g</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">90 ml</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td></tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <span class="tip-icon">⚖️</span>
+          <span>Sucre blanc → ~75 g glucides/heure au lieu de 90 g. Pour 95% des sportifs amateurs, c'est largement suffisant et c'est le moins cher de toutes les options.</span>
+        </div>
+      </div>
+
+      <div class="card-box" style="grid-column:1/-1">
+        <div class="card-title">Où trouver le fructose en poudre</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px">
+          <div style="padding:12px;background:var(--slate-pale);border-radius:8px">
+            <div style="font-weight:600;margin-bottom:4px">🌿 Magasin bio</div>
+            <div style="color:var(--muted)">Rayon "sucres naturels". ~5–8 $/kg</div>
+          </div>
+          <div style="padding:12px;background:var(--slate-pale);border-radius:8px">
+            <div style="font-weight:600;margin-bottom:4px">🏋️ Magasin sport/nutrition</div>
+            <div style="color:var(--muted)">GNC, Popeye's. ~8–12 $/kg</div>
+          </div>
+          <div style="padding:12px;background:var(--slate-pale);border-radius:8px">
+            <div style="font-weight:600;margin-bottom:4px">📦 En ligne</div>
+            <div style="color:var(--muted)">Amazon, BulkBarn. Meilleur prix en grand format</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- RECIPE 4 — CAFÉINE -->
+  <section class="recipe-section r4" id="r4">
+    <div class="recipe-header">
+      <div class="recipe-emoji recipe-emoji-bg">☕</div>
+      <div class="recipe-meta">
+        <div class="recipe-name">Variante Caféine — Gel Boost</div>
+        <div class="recipe-tagline">Applicable à n'importe quelle base. À réserver pour la 2e moitié d'effort.</div>
+        <div class="recipe-badges">
+          <span class="badge" style="background:var(--plum-pale);color:var(--plum)">À partir de 60–90 min</span>
+          <span class="badge" style="background:var(--plum-pale);color:var(--plum)">50–75 mg caféine/gel</span>
+          <span class="badge" style="background:var(--plum-pale);color:var(--plum)">Facile</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-title">Effets de la caféine sur la performance</div>
+      La caféine est l'un des rares <strong>ergogènes validés scientifiquement</strong>. Elle agit en bloquant les récepteurs à l'adénosine (molécule de la fatigue) dans le cerveau, réduisant la perception de l'effort de <strong>5 à 15%</strong>. Elle améliore aussi l'oxydation des graisses, préservant les réserves de glycogène sur les longues distances. Dose efficace : <strong>3 mg/kg de poids corporel</strong> (ex: 210 mg pour 70 kg). Se marie parfaitement à n'importe quelle base de gel.
+    </div>
+
+    <div class="recipe-body">
+      <div class="card-box">
+        <div class="card-title">Ajout sur base sirop d'érable · 6–8 gels</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Maltodextrine</td><td class="ing-qty">80 g</td><td class="ing-role">Énergie principale</td></tr>
+            <tr><td class="ing-name">Sirop d'érable ambré</td><td class="ing-qty">60 ml</td><td class="ing-role">Glucides + minéraux</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">75 ml</td><td class="ing-role">Fluidité</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td><td class="ing-role">Sodium</td></tr>
+            <tr><td class="ing-name"><strong>Café soluble instantané</strong></td><td class="ing-qty"><strong>½ càc</strong></td><td class="ing-role">~50 mg caféine/lot</td></tr>
+          </tbody>
+        </table>
+        <div class="tip-box" style="margin-top:12px">
+          <span class="tip-icon">⚠️</span>
+          <span>Dissoudre le café soluble dans 2–3 càs d'eau chaude séparément avant d'incorporer au mélange.</span>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">Dosage selon le poids</div>
+        <table class="ing-table">
+          <thead><tr><th>Poids</th><th>Dose max/jour</th><th>Nb gels max</th></tr></thead>
+          <tbody>
+            <tr><td>55 kg</td><td class="ing-qty">165 mg</td><td>2–3 gels</td></tr>
+            <tr><td>65 kg</td><td class="ing-qty">195 mg</td><td>3–4 gels</td></tr>
+            <tr><td>75 kg</td><td class="ing-qty">225 mg</td><td>4 gels</td></tr>
+            <tr><td>85 kg</td><td class="ing-qty">255 mg</td><td>4–5 gels</td></tr>
+          </tbody>
+        </table>
+        <div class="tip-box" style="margin-top:12px">
+          <span class="tip-icon">🚫</span>
+          <span><strong>Ne jamais tester le jour d'une course.</strong> Testez à l'entraînement. Évitez après 15h sur les efforts longs — risque d'insomnie.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- RECIPE 5 — SANS MALTO -->
+  <section class="recipe-section r5" id="r5">
+    <div class="recipe-header">
+      <div class="recipe-emoji recipe-emoji-bg">🏃</div>
+      <div class="recipe-meta">
+        <div class="recipe-name">Sans maltodextrine — Gels d'urgence</div>
+        <div class="recipe-tagline">Pour les sorties courtes ou si vous n'avez pas encore acheté de malto.</div>
+        <div class="recipe-badges">
+          <span class="badge" style="background:var(--rust-pale);color:var(--rust)">Efforts &lt; 2h</span>
+          <span class="badge" style="background:var(--rust-pale);color:var(--rust)">Ingrédients courants</span>
+          <span class="badge" style="background:var(--rust-pale);color:var(--rust)">Ultra-rapide</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-title">Quand l'utiliser</div>
+      Sans maltodextrine, vous perdez la capacité de saturer SGLT1 de façon optimale (la malto se gélifie moins dans l'intestin et est mieux tolérée). Ces recettes fonctionnent bien pour <strong>moins de 2 heures d'effort</strong> ou comme solution de dépannage. Au-delà, ajoutez de la malto pour de meilleures performances.
+    </div>
+
+    <div class="recipe-body">
+      <div class="card-box">
+        <div class="card-title">Option A · Sirop d'érable pur</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Sirop d'érable ambré</td><td class="ing-qty">100 ml</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">20 ml</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">Simple à mélanger. Goût excellent. Texture naturellement fluide. Électrolytes inclus.</p>
+      </div>
+
+      <div class="card-box">
+        <div class="card-title">Option B · Dattes mixées</div>
+        <table class="ing-table">
+          <thead><tr><th>Ingrédient</th><th>Quantité</th></tr></thead>
+          <tbody>
+            <tr><td class="ing-name">Dattes Medjool (dénoyautées)</td><td class="ing-qty">150 g</td></tr>
+            <tr><td class="ing-name">Eau</td><td class="ing-qty">80 ml</td></tr>
+            <tr><td class="ing-name">Sel de mer</td><td class="ing-qty">½ càc</td></tr>
+            <tr><td class="ing-name">Jus de citron</td><td class="ing-qty">1 càs</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">Mixer jusqu'à texture lisse. Riche en fibres — tester d'abord à l'entraînement. Durée : 3 jours au frigo.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /main -->
+
+<!-- SUMMARY -->
+<div class="main">
+  <section class="summary" id="summary">
+    <div class="section-label">Comparatif</div>
+    <h2 class="section-title">Quelle variante choisir ?</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Variante</th>
+          <th>Durée idéale</th>
+          <th>Absorption max</th>
+          <th>Texture</th>
+          <th>Électrolytes</th>
+          <th>Coût/gel</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🍁 Sirop d'érable + Malto</strong></td>
+          <td>1h30 → 5h+</td>
+          <td>~75–80 g/h</td>
+          <td>Fluide ✓</td>
+          <td>Naturels ✓✓</td>
+          <td>~0,35$</td>
+          <td class="stars">★★★★☆</td>
+        </tr>
+        <tr>
+          <td><strong>🍯 Miel + Malto</strong></td>
+          <td>1h → 4h</td>
+          <td>~70–75 g/h</td>
+          <td>Épaisse</td>
+          <td>Bons</td>
+          <td>~0,30$</td>
+          <td class="stars">★★★☆☆</td>
+        </tr>
+        <tr>
+          <td><strong>🔬 Malto + Fructose pur</strong></td>
+          <td>2h → 10h+</td>
+          <td>~90 g/h ✓✓</td>
+          <td>Parfaite ✓</td>
+          <td>Aucun (ajouter sel)</td>
+          <td>~0,20$</td>
+          <td class="stars">★★★★★</td>
+        </tr>
+        <tr>
+          <td><strong>🍬 Malto + Sucre blanc</strong></td>
+          <td>1h → 5h</td>
+          <td>~75 g/h</td>
+          <td>Bonne ✓</td>
+          <td>Aucun (ajouter sel)</td>
+          <td>~0,15$</td>
+          <td class="stars">★★★★☆</td>
+        </tr>
+        <tr>
+          <td><strong>☕ Caféine (boost)</strong></td>
+          <td>À partir de 60 min</td>
+          <td>Variable</td>
+          <td>Variable</td>
+          <td>Selon base</td>
+          <td>+0,05$</td>
+          <td class="stars">★★★★★</td>
+        </tr>
+        <tr>
+          <td><strong>🏃 Sans malto (urgence)</strong></td>
+          <td>&lt; 2h</td>
+          <td>~60 g/h</td>
+          <td>Fluide</td>
+          <td>Bons</td>
+          <td>~0,25$</td>
+          <td class="stars">★★★☆☆</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:24px">
+      <strong>Recommandation universelle au Québec :</strong> Maltodextrine + Sirop d'érable ambré + sel. Accessible, efficace, bon goût, électrolytes naturels inclus. Passez au fructose pur uniquement si vous visez des efforts de plus de 3h à haute intensité.
+    </div>
+  </section>
+</div>
+
+<!-- GOLDEN RULES -->
+<section class="rules">
+  <div class="main">
+    <div class="section-label" style="color:rgba(244,239,230,0.5)">Règles d'or</div>
+    <h2 class="section-title" style="color:var(--cream)">Les 6 commandements du gel maison</h2>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">01</div>
+        <div class="rule-text">Toujours tester à l'entraînement. Jamais le jour d'une compétition.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">02</div>
+        <div class="rule-text">Viser 30–60 g de glucides/heure pour &lt;2h. Jusqu'à 90 g/h pour les efforts très longs.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">03</div>
+        <div class="rule-text">Un gel toutes les 30–45 minutes, toujours avec 1–2 gorgées d'eau.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">04</div>
+        <div class="rule-text">Conserver au frigo. Consommer dans les 5 jours maximum.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">05</div>
+        <div class="rule-text">La maltodextrine se conserve 12–18 mois à température ambiante dans un contenant hermétique.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">06</div>
+        <div class="rule-text">Ne jamais dépasser 3 mg de caféine/kg de poids corporel par jour.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Guide gels énergétiques maison · Pour usage sportif personnel uniquement
+</footer>
+
+</body>
+</html>
