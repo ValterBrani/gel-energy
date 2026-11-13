@@ -438,6 +438,28 @@
   .compare-table tr:nth-child(even) td:first-child { background: #EEE8DD; }
   .compare-table tr:hover td:first-child { background: #E9E3D8; }
 
+
+  /* ── CALCULATEUR ── */
+  .calc { --rc: var(--slate); --rcp: var(--slate-pale); }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; margin-top: 8px; }
+  .calc-form label { display: block; font-size: 14px; font-weight: 600; margin: 16px 0 6px; }
+  .calc-form label.check { display: flex; gap: 10px; align-items: center; font-weight: 500; cursor: pointer; margin-top: 22px; }
+  .calc-form input[type=number], .calc-form select {
+    width: 100%; font: inherit; font-size: 16px; padding: 10px 12px;
+    border: 1px solid var(--cream-dark); border-radius: 8px; background: #fff; color: var(--ink);
+  }
+  .calc-form input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--slate); }
+  .calc-form :focus-visible { outline: 2px solid var(--slate); outline-offset: 2px; }
+  .calc-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .calc-out > * + * { margin-top: 20px; }
+  .calc-sub { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rc); font-weight: 500; margin-bottom: 8px; }
+  .tip-box.warn { background: var(--amber-pale); }
+  .calc-out ul { list-style: none; }
+  .calc-out ul li + li { margin-top: 10px; }
+  @media (max-width: 640px) {
+    .calc-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
   @media print {
     .nav-bar { display: none; }
     .recipe-section, .card-box, .rule-card, .why-box { break-inside: avoid; }
@@ -484,6 +506,7 @@
     <a href="#r3" class="nav-link">🔬 Fructose pur</a>
     <a href="#r4" class="nav-link">☕ Caféine</a>
     <a href="#r5" class="nav-link">🏃 Sans malto</a>
+    <a href="#calculateur" class="nav-link">🧮 Calculateur</a>
     <a href="#science" class="nav-link">🧬 Science</a>
     <a href="#summary" class="nav-link">📊 Comparatif</a>
   </div>
@@ -812,6 +835,45 @@
 
   <hr class="divider">
 
+  <!-- CALCULATEUR -->
+  <section class="recipe-section calc" id="calculateur">
+    <div class="section-label">Outil</div>
+    <h2 class="section-title">Calculateur de quantités</h2>
+    <p class="science-text">Indique la durée de ton effort et l'apport visé : on calcule le nombre de gels, la fréquence et les quantités à préparer.</p>
+
+    <div class="calc-grid">
+      <form class="card-box calc-form" id="calc-form" onsubmit="return false">
+        <div class="card-title">Ton effort</div>
+
+        <label for="c-recipe">Recette</label>
+        <select id="c-recipe">
+          <option value="erable">🍁 Malto + sirop d'érable</option>
+          <option value="miel">🍯 Malto + miel</option>
+          <option value="fructose">🔬 Malto + fructose pur (2:1)</option>
+          <option value="sucre">🍬 Malto + sucre blanc (2:1)</option>
+          <option value="sansmalto">🏃 Sirop d'érable pur (sans malto)</option>
+        </select>
+
+        <label for="c-hours">Durée de l'effort (heures)</label>
+        <input type="number" id="c-hours" min="0.5" max="12" step="0.5" value="3" inputmode="decimal">
+
+        <label for="c-rate">Apport visé (g de glucides par heure)</label>
+        <input type="number" id="c-rate" min="30" max="90" step="5" value="60" inputmode="numeric">
+        <div class="calc-hint">30–60 g/h pour moins de 2 h ; jusqu'à 90 g/h pour les efforts très longs (à tester).</div>
+
+        <label class="check" for="c-caf"><input type="checkbox" id="c-caf"> Ajouter de la caféine</label>
+        <div id="c-caf-box" hidden>
+          <label for="c-weight">Poids (kg)</label>
+          <input type="number" id="c-weight" min="40" max="130" step="1" value="70" inputmode="numeric">
+        </div>
+      </form>
+
+      <div class="card-box calc-out" id="c-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <!-- SCIENCE -->
   <section class="science" id="science">
     <div class="section-label">La science</div>
@@ -923,5 +985,99 @@
   Guide gels énergétiques maison · Usage sportif personnel · Valeurs estimées : vérifiez les étiquettes de vos ingrédients et testez à l'entraînement. Ne remplace pas l'avis d'un professionnel de la santé.
 </footer>
 
+<script>
+(function () {
+  // Rendements et glucides par gel : mêmes valeurs que les recettes de la page (≈ 40 ml/gel).
+  var RECIPES = {
+    erable:    { name: "Malto + sirop d'érable", carbs: 27, yield: 4.5, max: 75,
+                 ing: [["Maltodextrine", 80, "g"], ["Sirop d'érable ambré", 60, "ml"], ["Eau", 80, "ml"]] },
+    miel:      { name: "Malto + miel", carbs: 27, yield: 4.5, max: 70,
+                 ing: [["Maltodextrine", 80, "g"], ["Miel liquide", 50, "g"], ["Eau tiède (40 °C max)", 90, "ml"]] },
+    fructose:  { name: "Malto + fructose pur (2:1)", carbs: 30, yield: 4, max: 90,
+                 ing: [["Maltodextrine", 80, "g"], ["Fructose en poudre", 40, "g"], ["Eau", 85, "ml"]] },
+    sucre:     { name: "Malto + sucre blanc (2:1)", carbs: 30, yield: 4, max: 90,
+                 ing: [["Maltodextrine", 40, "g"], ["Sucre blanc", 80, "g"], ["Eau", 90, "ml"]] },
+    sansmalto: { name: "Sirop d'érable pur", carbs: 30, yield: 3, max: 60,
+                 ing: [["Sirop d'érable ambré", 100, "ml"], ["Eau", 20, "ml"]] }
+  };
+  var SALT_TSP = 0.5;      // ½ c. à thé de sel par lot
+  var COFFEE_MG = [30, 45, 60]; // mg de caféine par c. à thé de café soluble (bas, moyen, haut)
+
+  var $ = function (id) { return document.getElementById(id); };
+  function num(el, min, max, dflt) {
+    var v = parseFloat(String(el.value).replace(",", "."));
+    if (isNaN(v)) v = dflt;
+    return Math.min(max, Math.max(min, v));
+  }
+  function fr(n, d) { return n.toLocaleString("fr-CA", { maximumFractionDigits: d || 0 }); }
+  function round5(x) { return Math.max(5, Math.round(x / 5) * 5); }
+  function frac(x, step) {
+    var r = Math.max(step, Math.round(x / step) * step);
+    var w = Math.floor(r + 1e-9), f = Math.round((r - w) * 4);
+    var sym = ["", "¼", "½", "¾", ""][f];
+    if (f === 4) { w += 1; sym = ""; }
+    return (w ? w : "") + (w && sym ? " " : "") + sym;
+  }
+  function stat(v, label) {
+    return '<div><div class="stat-num">' + v + '</div><div class="stat-cap">' + label + '</div></div>';
+  }
+  function tip(icon, text, warn) {
+    return '<div class="tip-box' + (warn ? ' warn' : '') + '"><span class="tip-icon">' + icon + '</span><span>' + text + '</span></div>';
+  }
+
+  function render() {
+    var r = RECIPES[$("c-recipe").value];
+    var hours = num($("c-hours"), 0.5, 12, 3);
+    var rate = num($("c-rate"), 30, 90, 60);
+    var total = hours * rate;
+    var gels = Math.ceil(total / r.carbs);
+    var scale = gels / r.yield;
+    var interval = Math.round(60 * r.carbs / rate);
+    var notes = [];
+
+    var rows = r.ing.map(function (i) {
+      return '<tr><td class="ing-name">' + i[0] + '</td><td class="ing-qty">' + fr(round5(i[1] * scale)) + ' ' + i[2] + '</td></tr>';
+    });
+    rows.push('<tr><td class="ing-name">Sel de mer</td><td class="ing-qty">' + frac(SALT_TSP * scale, 0.25) + ' c. à thé</td></tr>');
+
+    if (rate > r.max) notes.push(tip("⚠️", "Cette recette plafonne vers <strong>" + r.max + " g/h</strong> : pour viser " + rate + " g/h, choisis la version 2:1 (fructose ou sucre) ou baisse l'objectif.", true));
+    if (interval < 20) notes.push(tip("⚠️", "Un gel toutes les <strong>" + interval + " min</strong>, c'est serré. Envisage une version plus concentrée ou un objectif plus bas.", true));
+    if (hours < 2 && rate > 60) notes.push(tip("💡", "Pour moins de 2 h, 30–60 g/h suffisent généralement.", false));
+    if (hours > 5) notes.push(tip("🧊", "Les gels se gardent <strong>4–5 jours</strong> au frigo : prépare-les en deux lots si tu les fais longtemps d'avance.", false));
+
+    var caf = "";
+    if ($("c-caf").checked) {
+      var w = num($("c-weight"), 40, 130, 70);
+      var dose = Math.round(3 * w);
+      var tsp = dose / COFFEE_MG[1];
+      var k = Math.max(1, Math.floor(gels / 2));
+      caf = '<div><div class="calc-sub">Caféine · 3 mg/kg</div>' +
+        '<p style="font-size:14px">Dose visée : <strong>' + dose + ' mg</strong> ≈ <strong>' + frac(tsp, 0.5) + ' c. à thé</strong> de café soluble ' +
+        '(entre ' + frac(dose / COFFEE_MG[2], 0.5) + ' et ' + frac(dose / COFFEE_MG[0], 0.5) + ' selon la marque : vérifie l\'étiquette). ' +
+        'Répartis-la dans les <strong>' + k + '</strong> derniers gels (≈ ' + Math.round(dose / k) + ' mg chacun) et dissous le café dans un peu d\'eau chaude, prise sur l\'eau de la recette.</p></div>';
+      if (dose > 400) notes.push(tip("⚠️", "Au-delà de 400 mg, tu dépasses le plafond quotidien de Santé Canada.", true));
+      else notes.push(tip("☕", "Compte aussi ton café du matin : le total de la journée ne devrait pas dépasser 400 mg (Santé Canada).", false));
+      if (hours < 1.5) notes.push(tip("💡", "La caféine se réserve pour la 2<sup>e</sup> moitié d'un effort d'au moins 60–90 min.", false));
+    }
+
+    $("c-out").innerHTML =
+      '<div class="card-title">' + r.name + ' · ' + fr(hours, 1) + ' h à ' + rate + ' g/h</div>' +
+      '<div class="stat-grid">' +
+        stat(gels, "gels de 40 ml") +
+        stat(interval + " min", "entre chaque gel") +
+        stat(fr(Math.round(total)) + " g", "glucides au total") +
+        stat("≈ " + fr(round5(gels * 40)) + " ml", "volume") +
+      '</div>' +
+      '<div><div class="calc-sub">À préparer</div><table class="ing-table"><thead><tr><th scope="col">Ingrédient</th><th scope="col">Quantité</th></tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
+      caf +
+      (notes.length ? '<div>' + notes.join("") + '</div>' : "") +
+      '<p class="note-small">Estimation basée sur les rendements des recettes ci-dessus (≈ 40 ml par gel). Prévois un gel de réserve, mesure ton lot et teste à l\'entraînement.</p>';
+  }
+
+  ["c-recipe", "c-hours", "c-rate", "c-weight"].forEach(function (id) { $(id).addEventListener("input", render); });
+  $("c-caf").addEventListener("change", function () { $("c-caf-box").hidden = !this.checked; render(); });
+  render();
+})();
+</script>
 </body>
 </html>
