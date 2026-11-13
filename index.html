@@ -859,7 +859,7 @@
 
         <label for="c-rate">Apport visé (g de glucides par heure)</label>
         <input type="number" id="c-rate" min="30" max="90" step="5" value="60" inputmode="numeric">
-        <div class="calc-hint">30–60 g/h pour moins de 2 h ; jusqu'à 90 g/h pour les efforts très longs (à tester).</div>
+        <div class="calc-hint">30–60&nbsp;g/h pour un effort de 1 à 2,5&nbsp;h ; jusqu'à 90&nbsp;g/h au-delà, avec une recette 2:1 (à tester).</div>
 
         <label class="check" for="c-caf"><input type="checkbox" id="c-caf"> Ajouter de la caféine</label>
         <div id="c-caf-box" hidden>
@@ -957,7 +957,7 @@
       </div>
       <div class="rule-card">
         <div class="rule-num">02</div>
-        <div class="rule-text">Viser 30–60&nbsp;g de glucides/heure pour &lt;2h. Jusqu'à 90&nbsp;g/h pour les efforts très longs.</div>
+        <div class="rule-text">Viser 30–60&nbsp;g de glucides/heure pour un effort de 1 à 2,5&nbsp;h. Jusqu'à 90&nbsp;g/h au-delà, avec une recette 2:1 et après l'avoir testé.</div>
       </div>
       <div class="rule-card">
         <div class="rule-num">03</div>
@@ -1042,7 +1042,8 @@
 
     if (rate > r.max) notes.push(tip("⚠️", "Cette recette plafonne vers <strong>" + r.max + " g/h</strong> : pour viser " + rate + " g/h, choisis la version 2:1 (fructose ou sucre) ou baisse l'objectif.", true));
     if (interval < 20) notes.push(tip("⚠️", "Un gel toutes les <strong>" + interval + " min</strong>, c'est serré. Envisage une version plus concentrée ou un objectif plus bas.", true));
-    if (hours < 2 && rate > 60) notes.push(tip("💡", "Pour moins de 2 h, 30–60 g/h suffisent généralement.", false));
+    if (hours < 1) notes.push(tip("💡", "Pour un effort de moins d'une heure, les gels ne sont généralement pas nécessaires : un peu de glucides ou un simple rinçage de bouche suffit.", false));
+    else if (hours < 2.5 && rate > 60) notes.push(tip("💡", "Pour un effort de moins de 2,5 h, 30–60 g/h suffisent généralement.", false));
     if (hours > 5) notes.push(tip("🧊", "Les gels se gardent <strong>4–5 jours</strong> au frigo : prépare-les en deux lots si tu les fais longtemps d'avance.", false));
 
     var caf = "";
